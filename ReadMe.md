@@ -1,8 +1,8 @@
 # Project Folder Structure
 
 - 📂 **code**
-  - 📄 .env : LLaMA에 access 하기 위한 token 저장
-  - 📄 app.py : **chatbot이 실행** 
+  - 📄 .env : LLaMA에 access 하기 위한 token 저장 (https://kimwoolina.tistory.com/107)
+  - 📄 app.py : **chatbot 실행** 
   - 📄 data.py : **크롤링 및 전처리 실행**
   - 📄 EPREL.py : 크롤링 함수
   - 📄 functions.py : chatbot 관련 함수
