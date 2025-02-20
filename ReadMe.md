@@ -60,7 +60,7 @@ python data.py --method compare
 ```
 - compare 실행 후 ../output/confusion.csv, confusion_matrix.png, evaluation.csv 생성
 - png 파일로 시각화 확인 가능, evaluation.csv를 통해 가장 적절한 모델 평가 가능 --> Isolation forest 선정
-### 4. chatbot 실행
+### 5. chatbot 실행
 ```
 streamlit run app.py
 ```
