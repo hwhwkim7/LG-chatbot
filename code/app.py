@@ -23,6 +23,7 @@ if "vector_db" not in st.session_state:
     df, des_dict = functions.load_data()
 
     # 벡터 저장소 로드 또는 업데이트
+    functions.set_vectorDB(df)
     st.session_state.vector_db = functions.load_vectorDB()
 
     st.session_state.des_dict = des_dict
@@ -56,6 +57,9 @@ if query:
 
     with st.spinner("🔍 검색 중..."):
         response = functions.generate_response(query, st.session_state.model, st.session_state.tokenizer)
+        # st.success("✅ 응답 생성 완료!")
+        # st.write("🤖 **챗봇 응답:**")
+        # st.write(response)
 
     st.session_state["messages"].append(("assistant", response))
     st.chat_message("assistant").write(response)
