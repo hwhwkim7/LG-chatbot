@@ -24,6 +24,35 @@ def load_data(file_name='../output/pre_data_IF.csv', des_file_name="../data/desc
 
     return data_df, des_dict
 
+def set_vectorDB(df, db_faiss_path="vectorstore/db_faiss"):
+    # Product Name: Apple | Price: 100 | Rating: 4 | Stock: 50
+    df['text'] = df.apply(lambda row: " | ".join(f"{col}: {val}" for col, val in row.items()), axis=1)
+
+    # csv 데이터를 list로
+    documents = df['text'].tolist()
+
+    # 문서를 작은 청크로 나누기 (필요에 따라 크기 조정 가능)
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=20)
+    text_chunks = text_splitter.create_documents(documents)
+
+    # 임베딩 모델 적용 (HuggingFace)
+    embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
+
+    # FAISS 벡터 저장소 생성
+    docsearch = FAISS.from_documents(text_chunks, embeddings)
+
+    #  로컬 저장소에 저장
+    os.makedirs(os.path.dirname(db_faiss_path), exist_ok=True)
+    docsearch.save_local(db_faiss_path)
+
+    # 저장 후 존재 여부 확인
+    if os.path.exists(db_faiss_path):
+        print(f"✅ FAISS 저장소가 성공적으로 생성됨: {db_faiss_path}")
+    else:
+        print(f"❌ FAISS 저장소 생성 실패: {db_faiss_path}")
+
+    return docsearch
+
 
 # 벡터 DB 생성 또는 로드
 def load_vectorDB(db_faiss_path="vectorstore/db_faiss"):
@@ -122,7 +151,7 @@ def generate_response(query, model, tokenizer, k=20, db_faiss_path="vectorstore/
     # Step 6: 응답 디코딩 및 후처리
     response = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-    # `[Answer]` 이후만 추출하여 최종 응답 생성
+    # 🔹 `[Answer]` 이후만 추출하여 최종 응답 생성
     if "[Answer]" in response:
         response = response.split("[Answer]")[-1].strip()
 
