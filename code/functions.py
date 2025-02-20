@@ -16,7 +16,7 @@ def add_vertical_space(spaces=1):
 
 
 # 데이터 로드
-def load_data(file_name='pre_data_IF.csv', des_file_name="description.csv"):
+def load_data(file_name='../output/pre_data_IF.csv', des_file_name="../data/description.csv"):
     des_df = pd.read_csv(des_file_name)
     des_df.columns = ['col_name', 'description']
     des_dict = dict(zip(des_df['col_name'], des_df['description']))
