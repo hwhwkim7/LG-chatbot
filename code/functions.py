@@ -87,6 +87,7 @@ def load_model(model_name="meta-llama/Llama-3.2-11B-Vision-Instruct"):
 
     return model, tokenizer
 
+### 튜닝 ###
 def search_DB(query, des_dict, k=3, db_faiss_path="vectorstore/db_faiss"):
     # 저장된 벡터 저장소 로드
     docsearch = load_vectorDB(db_faiss_path)
@@ -107,6 +108,7 @@ def search_DB(query, des_dict, k=3, db_faiss_path="vectorstore/db_faiss"):
     # 검색된 결과 출력
     return final_text
 
+### 튜닝 ###
 def generate_response(query, model, tokenizer, des_dict, k=3, db_faiss_path="vectorstore/db_faiss"):
     # DB에서 검색
     search_results = search_DB(query, des_dict, k, db_faiss_path)
