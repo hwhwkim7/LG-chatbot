@@ -98,3 +98,8 @@ torchvision                 0.18.1+cu118
 transformers                4.49.0
 
 ```
+
+```
+streamlit run app.py --server.enableWebsocketCompression=false
+```
+
