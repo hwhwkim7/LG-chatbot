@@ -29,5 +29,5 @@ dimensionWidth,세탁기의 너비 (단위: cm)
 supplierOrTrademark,"제조사 또는 브랜드명 (예: Samsung, Beko 등)"
 energyConsPer100Cycle,100회 세탁 기준 에너지 소비량 (단위: kWh)
 maxTemperatureHalf,절반 용량 세탁 시 최대 세탁 온도 (°C)
-powerDelayStart,지연 시작 기능 사용 시 전력 소비량 (단위: W)
+powerDelayStart,예약 기능 사용 시 전력 소비량 (단위: W)
 rinsingEffectiveness,헹굼 성능 (높을수록 헹굼 효과가 좋음)
