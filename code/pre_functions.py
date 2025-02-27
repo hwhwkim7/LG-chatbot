@@ -182,7 +182,7 @@ def changed_name_by_url(df, name_col, url_col, threshold=80):
             other_name = names[j]
             if other_name in name_groups: continue
 
-            similarity = fuzz.ratio(name, other_name)
+            similarity = fuzz.ratio(name.lower(), other_name.lower())
             if similarity >= threshold:
                 name_groups[other_name] = group_id
                 group_dict[group_id].append(other_name)
@@ -208,10 +208,12 @@ def changed_name_by_url(df, name_col, url_col, threshold=80):
             updated_names[original_name] = new_name
             print(f"{original_name} -> {new_name}")  # 변경 로그 출력
 
+    update_set = set()
     for k,v in updated_names.items():
         if k != v:
             print(k,'->',v)
-
+            update_set.add(k)
+    print(update_set, len(update_set))
     df[name_col] = df[name_col].replace(updated_names)
 
     return df
