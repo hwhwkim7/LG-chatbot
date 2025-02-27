@@ -208,12 +208,15 @@ def changed_name_by_url(df, name_col, url_col, threshold=80):
             updated_names[original_name] = new_name
             print(f"{original_name} -> {new_name}")  # 변경 로그 출력
 
-    update_set = set()
+    update_set_before = set()
+    update_set_after = set()
     for k,v in updated_names.items():
         if k != v:
             print(k,'->',v)
-            update_set.add(k)
-    print(update_set, len(update_set))
+            update_set_before.add(k)
+            update_set_after.add(v)
+    print(f'바뀌기 전 이름: {update_set_before}, 개수: {len(update_set_before)}')
+    print(f'바뀐 후 이름: {update_set_after}, 개수: {len(update_set_after)}')
     df[name_col] = df[name_col].replace(updated_names)
 
     return df
