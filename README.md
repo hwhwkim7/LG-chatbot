@@ -76,46 +76,12 @@ python data.py --method compare
 ```
 - compare 실행 후 ../output/confusion.csv, confusion_matrix.png, evaluation.csv 생성
 - png 파일로 시각화 확인 가능, evaluation.csv를 통해 가장 적절한 모델 평가 가능 --> Isolation forest 선정
+```
+# 가격 정보 추가
+python web_search.py
+```
 ### 5. chatbot 실행
 ```
 streamlit run app.py
-```
-
-
-
-```
-pip list | grep -E 'streamlit|pandas|transformers|torch|langchain|faiss|dotenv'
-```
-```
-ctransformers               0.2.27
-faiss-gpu                   1.7.2
-langchain                   0.3.19
-langchain-community         0.3.18
-langchain-core              0.3.37
-langchain-experimental      0.3.4
-langchain-text-splitters    0.3.6
-pandas                      2.1.4
-python-dotenv               1.0.1
-sentence-transformers       3.4.1
-streamlit                   1.42.1
-streamlit-camera-input-live 0.2.0
-streamlit-card              1.0.2
-streamlit-chat              0.1.1
-streamlit-embedcode         0.1.2
-streamlit-extras            0.5.5
-streamlit-faker             0.0.3
-streamlit-image-coordinates 0.1.9
-streamlit-keyup             0.3.0
-streamlit-toggle-switch     1.0.2
-streamlit-vertical-slider   2.5.5
-torch                       2.3.1+cu118
-torchaudio                  2.3.1+cu118
-torchvision                 0.18.1+cu118
-transformers                4.49.0
-
-```
-
-```
-streamlit run app.py --server.enableWebsocketCompression=false
 ```
 
