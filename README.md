@@ -29,6 +29,7 @@
     ==> 응답 생성 !-!
   - 📄 pre_functions.py : 크롤링 및 전처리 관련 함수
   - 📄 requriement.txt : 활용할 패키지 저장
+  - 📄 web_search.py : **가격 검색 실행**
 - 📂 **data**
   - 📄 data_origin.csv : 크롤링 결과
   - 📄 description.csv : 컬럼 설명 **(정확한 정보가 맞는지 확인 필요, 직접 넣어줘야 함)**
