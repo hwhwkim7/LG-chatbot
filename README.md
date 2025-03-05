@@ -6,27 +6,17 @@
   - 📄 data.py : **크롤링 및 전처리 실행**
   - 📄 EPREL.py : 크롤링 함수
   - 📄 functions.py : chatbot 관련 함수
-     1. set_vectorDB() --> csv 파일 가져와서 벡터 DB를 생성
-    
-    2. load_model() --> LLM 모델을 로드
-    
-    4. query 
-    
-    5. generate_response()
-       
-    4.1 search_DB() --> query 임베딩 후, 유사한 k개의 data 추출
-    
-    4.2 가져온 data LLM에 적절하게 포맷팅
-    
-    4.3 시스템 프롬프트 작성
-    
-    4.4 최종 프롬프트 <-- 시스템 프롬프트 + DB 검색 결과 + query 
-    
-    4.5 model.generate <-- LLM이 최종 프롬프트 기반으로 응답을 생성
-    
-    4.6 응답을 디코딩 해서 후처리 + [Answer] 이후만 받을 수 있게끔 후처리
-    
-    ==> 응답 생성 !-!
+     - set_vectorDB() --> csv 파일 가져와서 벡터 DB를 생성
+     - load_model() --> LLM 모델을 로드
+     - query 
+     - generate_response()
+       - search_DB() --> query 임베딩 후, 유사한 k개의 data 추출
+       - 가져온 data LLM에 적절하게 포맷팅
+       - 시스템 프롬프트 작성
+       - 최종 프롬프트 <-- 시스템 프롬프트 + DB 검색 결과 + query 
+       - model.generate <-- LLM이 최종 프롬프트 기반으로 응답을 생성
+       - 응답을 디코딩 해서 후처리 + [Answer] 이후만 받을 수 있게끔 후처리
+       - ==> 응답 생성 !-!
   - 📄 pre_functions.py : 크롤링 및 전처리 관련 함수
   - 📄 requriement.txt : 활용할 패키지 저장
   - 📄 web_search.py : **가격 검색 실행**
