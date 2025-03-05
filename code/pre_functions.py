@@ -91,15 +91,15 @@ def evaluate_anomaly_detection(y_true, y_pred, method_name):
     # Jaccard Similarity
     jaccard_sim = jaccard_score(y_true, y_pred)
 
-    # 결과 출력
-    print(f"\n=== {method_name} Evaluation ===")
-    print(f"Confusion Matrix:\n{cm}")
-    print(f"TN: {tn}, FP: {fp}, FN: {fn}, TP: {tp}")
-    print(f"Precision: {precision:.4f}")
-    print(f"Recall: {recall:.4f}")
-    print(f"F1-score: {f1_score:.4f}")
-    print(f"AUC-ROC Score: {auc_score:.4f}")
-    print(f"Jaccard Similarity: {jaccard_sim:.4f}\n")
+    # # 결과 출력
+    # print(f"\n=== {method_name} Evaluation ===")
+    # print(f"Confusion Matrix:\n{cm}")
+    # print(f"TN: {tn}, FP: {fp}, FN: {fn}, TP: {tp}")
+    # print(f"Precision: {precision:.4f}")
+    # print(f"Recall: {recall:.4f}")
+    # print(f"F1-score: {f1_score:.4f}")
+    # print(f"AUC-ROC Score: {auc_score:.4f}")
+    # print(f"Jaccard Similarity: {jaccard_sim:.4f}\n")
 
     return {
         "Method": method_name,
@@ -206,17 +206,17 @@ def changed_name_by_url(df, name_col, url_col, threshold=80):
 
         if original_urls & new_name_urls:  # 공통 URL이 존재하면 변경
             updated_names[original_name] = new_name
-            print(f"{original_name} -> {new_name}")  # 변경 로그 출력
+            # print(f"{original_name} -> {new_name}")  # 변경 로그 출력
 
     update_set_before = set()
     update_set_after = set()
     for k,v in updated_names.items():
         if k != v:
-            print(k,'->',v)
+            # print(k,'->',v)
             update_set_before.add(k)
             update_set_after.add(v)
-    print(f'바뀌기 전 이름: {update_set_before}, 개수: {len(update_set_before)}')
-    print(f'바뀐 후 이름: {update_set_after}, 개수: {len(update_set_after)}')
+    # print(f'바뀌기 전 이름: {update_set_before}, 개수: {len(update_set_before)}')
+    # print(f'바뀐 후 이름: {update_set_after}, 개수: {len(update_set_after)}')
     df[name_col] = df[name_col].replace(updated_names)
 
     return df
@@ -231,9 +231,8 @@ def pre_process(df, method, file_path="../output/pre_data_"):
     ]
 
     df = df[expected_columns]
-    print(len(df.columns))
 
-    print('결측치 확인\n', df.isnull().sum())
+    # print('결측치 확인\n', df.isnull().sum())
 
     num_columns = df.columns[
         df.apply(lambda col: col.dropna().apply(lambda x: str(x).replace('.', '', 1).isdigit()).all())
@@ -252,7 +251,7 @@ def pre_process(df, method, file_path="../output/pre_data_"):
 
 
         df = changed_name_by_url(df, 'supplierOrTrademark', 'webLinkSupplier')
-        print(df)
+        # print(df)
 
         df.to_csv(file_path + method + '.csv', index=False)
     else:
