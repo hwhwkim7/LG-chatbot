@@ -52,6 +52,10 @@ conda activate <name>
 ```
 pip install -r requirements.txt
 ```
+- ModuleNotFoundError 가 발생한다면, 해당 module이 설치되어있지 않다는 것
+```
+pip install <module_name>
+```
 ### 3. 데이터 크롤링
 ```
 python data.py --craw T
