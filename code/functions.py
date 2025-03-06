@@ -58,7 +58,6 @@ def set_vectorDB(df, embeddings, db_path="vectorstore/db_faiss"):
     else:
         print(f"⚠️ FAISS 로드 실패. 다시 생성합니다.")
 
-    col_info = df.columns.tolist()
     documents = []
     col_info = [
     "ratedCapacity", "spinClass", "noiseClass", "energyClass",
