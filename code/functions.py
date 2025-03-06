@@ -60,16 +60,20 @@ def set_vectorDB(df, embeddings, db_path="vectorstore/db_faiss"):
 
     col_info = df.columns.tolist()
     documents = []
+    col_info = [
+    "ratedCapacity", "spinClass", "noiseClass", "energyClass",
+    "rinsingEffectiveness", "supplierOrTrademark", "onMarketStart_Year"
+    ] # 벡터 임베딩할 주요 컬럼
+    
     # df의 각 row를 순회
     for _, row in df.iterrows():
-        model_id = str(row["modelIdentifier"])  # 모델 ID 저장
-        # row내에서 column에 대해서 순회
-        for col in col_info:
-            spec_text = f"{col} : {str(row[col])}" # 해당 row내에서 "컬럼명: 값" 형식으로 text 구성
-            doc = Document(page_content=spec_text,
-                           metadata={"modelIdentifier": model_id}  # 메타데이터로 모델 ID 저장
-                           )
-            documents.append(doc) # 생성한 document를 list에 저장
+        # 여러 열을 하나로 합쳐서 한 행씩 임베딩
+        combined_text = ", ".join([f"{col}: {row[col]}" for col in col_info if pd.notna(row[col])])
+        # 메타데이터 저장 (modelIdentifier)
+        metadata = {"modelIdentifier": row["modelIdentifier"]} if "modelIdentifier" in df.columns else {}
+        # 벡터DB에 저장할 문서 생성
+        doc = Document(page_content=combined_text, metadata=metadata)
+        documents.append(doc) # 생성한 document를 list에 저장
 
     # FAISS 벡터 저장소 생성 (임베딩을 통해 vectorDB 생성)
     vector_store = FAISS.from_documents(documents, embeddings)
@@ -162,7 +166,7 @@ def search_DB(query, k, df, embeddings, db_faiss_path="vectorstore/db_faiss"):
     return formatted_results
 
 # Llama 모델 응답 생성
-def generate_response(query, generator, des_dict, df, embeddings, k=10, db_faiss_path="vectorstore/db_faiss"):
+def generate_response(query, generator, des_dict, df, embeddings, k=50, db_faiss_path="vectorstore/db_faiss"):
     # 쿼리가 비었다면 종류
     if len(query) == 0: return ""
 
@@ -170,19 +174,30 @@ def generate_response(query, generator, des_dict, df, embeddings, k=10, db_faiss
     search_results = search_DB(query, k, df, embeddings, db_faiss_path)
     if len(search_results) == 0:
         return "검색 결과가 없습니다."
+    # 검색 결과 포맷팅
+    formatted_results = "\n\n".join([f"{res}" for i, res in enumerate(search_results)])
 
     # 컬럼 설명 추가
     column_info = "\n".join([f"{key}: {value}" for key, value in des_dict.items()])
 
     # Llama 모델 프롬프트 생성
     system_prompt = f"""
-    You are a friendly chatbot that provides insights on washing machine performance based on your knowledge database.
-    All user inputs will always be in English, and you must always respond in English.
-    When a question is asked, analyze the column information in your vector database to determine what should be checked, and provide an appropriate response.
-    When listing specifications, always use the format "Specification: Range" in a bullet-point list. The format should be concise and structured.
-    Ensure that all specifications follow this format for clarity and consistency.
-    Provide a clear and concise response in a single sentence. Do not repeat yourself.
+    You are a friendly chatbot that provides insights on washing machine performance using your knowledge database.
+    All user inputs will be in English, and you must always respond in English.
+    When asked a question, analyze the relevant columns in your vector database and provide a clear, concise response.
     
+    If the user requests a summary or specifications, extract key details from the search results and present them in a structured bullet-point format:
+    - Maximum Washing Capacity: Range (ratedCapacity)
+    - Spin-Drying Performance: Rating (spinClass)
+    - Noise Level: Rating (noiseClass)
+    - Energy Efficiency: Rating (energyClass)
+    - Rinsing Effectiveness: Score (rinsingEffectiveness)
+
+    Format numerical ranges as "Min~Max" (e.g., "6~9kg"). Adjust specification names based on the column descriptions below instead of using raw column names.
+    When answering, provide only the specifications. 
+    Do not mention modelIdentifier or list model names.
+    Provide a single, well-structured response without unnecessary repetition.
+
     [Column Descriptions]
     {column_info}
     """
@@ -192,7 +207,7 @@ def generate_response(query, generator, des_dict, df, embeddings, k=10, db_faiss
     {system_prompt}
 
     [DB Search]
-    {search_results}
+    {formatted_results}
     
     [User question]
     {query}
@@ -211,10 +226,18 @@ def generate_response(query, generator, des_dict, df, embeddings, k=10, db_faiss
     # 응답 생성 및 적절한 답변이 나오도록 전처리
     response = generator(prompt, max_new_tokens=128, temperature=0.1)
     response = response[0]["generated_text"]
-    # `[Answer]` 이후만 추출하여 최종 응답 생성
+    # 실제 응답만 추출하여 최종 응답 생성
     if "[Answer]" in response:
         response = response.split("[Answer]")[-1].strip()
-    elif not response:
+    if "[System prompt]" in response:
+        response = response.split("[System prompt]")[-1].strip()
+    if "[Column Descriptions]" in response:
+        response = response.split("[Column Descriptions]")[-1].strip()
+    if "[DB Search]" in response:
+        response = response.split("[DB Search]")[-1].strip()
+    if "[User question]" in response:
+        response = response.split("[User question]")[-1].strip()
+    if not response:
         response = "적절한 답변을 생성할 수 없습니다."
 
     return response
@@ -225,5 +248,5 @@ def load_token():
     LLM_token = os.getenv("HUGGINGFACE_TOKEN")
     SERPER_token = os.getenv("SERPER_API_KEY")
     GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-    GOOGLE_CS = os.getenv("GOOGLE_CS")
-    return LLM_token, SERPER_token, GOOGLE_API_KEY, GOOGLE_CS
+    GOOGLE_CX = os.getenv("GOOGLE_CX")
+    return LLM_token, SERPER_token, GOOGLE_API_KEY, GOOGLE_CX
