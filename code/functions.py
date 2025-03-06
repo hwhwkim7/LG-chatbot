@@ -35,7 +35,6 @@ def preprocess_data(df, dict):
     "onMarketStart_Day": "The day this model was released on the market (DD)"
     })
 
-
     return df, dict
 
 # 데이터 로드
