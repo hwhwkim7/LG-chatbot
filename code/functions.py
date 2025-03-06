@@ -30,10 +30,11 @@ def preprocess_data(df, dict):
 
     # 설명 추가
     dict.update({
-        "onMarketStart_Year": "이 모델이 시장에 출시된 연도 (YYYY)",
-        "onMarketStart_Month": "이 모델이 시장에 출시된 월 (MM)",
-        "onMarketStart_Day": "이 모델이 시장에 출시된 일 (DD)"
+    "onMarketStart_Year": "The year this model was released on the market (YYYY)",
+    "onMarketStart_Month": "The month this model was released on the market (MM)",
+    "onMarketStart_Day": "The day this model was released on the market (DD)"
     })
+
 
     return df, dict
 
