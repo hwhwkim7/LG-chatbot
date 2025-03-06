@@ -1,33 +1,33 @@
-﻿modelIdentifier,제품의 고유 모델 식별자 (각 세탁기 모델을 구별하는 코드)
-spinSpeedRated,"최대 탈수 속도 (단위: RPM, 높을수록 탈수가 강함)"
-type,"세탁기의 유형 (예: FREE_STANDING - 독립형, BUILT_IN - 빌트인)"
-onMarketStartDate,"이 모델이 시장에 출시된 날짜 ([YYYY, MM, DD] 형식)"
-spinSpeedHalf,절반 용량 세탁 시 탈수 속도 (RPM)
-ratedCapacity,세탁기의 최대 세탁 용량 (단위: kg)
-spinClass,"탈수 성능 등급 (A~G, A가 최고 성능)"
-maxTemperatureRated,정격 용량 세탁 시 최대 세탁 온도 (°C)
-maxTemperatureQuarter,1/4 용량 세탁 시 최대 세탁 온도 (°C)
-dimensionDepth,세탁기의 깊이 (단위: cm)
-guaranteeDuration,제조사가 제공하는 보증 기간 (단위: 년)
-dimensionHeight,세탁기의 높이 (단위: cm)
-powerNetworkStandby,네트워크 대기 전력 소비 (단위: W)
-moisture,탈수 후 남아있는 잔여 습기 비율 (%)
-spinSpeedQuarter,1/4 용량 세탁 시 탈수 속도 (RPM)
-energyEfficiencyIndex,에너지 효율 지수 (낮을수록 효율이 좋음)
-noiseClass,"소음 등급 (A~D, A가 가장 조용함)"
-powerStandbyMode,대기 모드에서의 전력 소비 (단위: W)
-powerOffMode,전원 꺼짐 모드에서의 전력 소비 (단위: W)
-webLinkSupplier,제조사 지원 웹사이트 URL
-programmeDurationHalf,절반 용량 세탁 시 프로그램 소요 시간 (단위: 분)
-programmeDurationQuarter,1/4 용량 세탁 시 프로그램 소요 시간 (단위: 분)
-energyConsPerCycle,세탁 1회당 에너지 소비량 (단위: kWh)
-noise,세탁기 작동 중 발생하는 소음 (단위: dB)
-waterCons,세탁 1회당 소비하는 물의 양 (단위: 리터)
-energyClass,"에너지 등급 (A~G, A가 가장 효율적)"
-programmeDurationRated,정격 용량 세탁 시 프로그램 소요 시간 (단위: 분)
-dimensionWidth,세탁기의 너비 (단위: cm)
-supplierOrTrademark,"제조사 또는 브랜드명 (예: Samsung, Beko 등)"
-energyConsPer100Cycle,100회 세탁 기준 에너지 소비량 (단위: kWh)
-maxTemperatureHalf,절반 용량 세탁 시 최대 세탁 온도 (°C)
-powerDelayStart,제품 On 후 동작 전까지 전력 소비량 (단위: W)
-rinsingEffectiveness,헹굼 성능 (높을수록 헹굼 효과가 좋음)
+﻿modelIdentifier,"Unique model identifier for the product (a code that distinguishes each washing machine model)"
+spinSpeedRated,"Maximum spin speed (unit: RPM, the higher the value, the stronger the spin-drying)"
+type,"Type of washing machine (e.g., FREE_STANDING - standalone, BUILT_IN - built-in)"
+onMarketStartDate,"Date when this model was released on the market (format: [YYYY, MM, DD])"
+spinSpeedHalf,"Spin speed when washing at half capacity (unit: RPM)"
+ratedCapacity,"Maximum washing capacity of the washing machine (unit: kg)"
+spinClass,"Spin-drying performance rating (A~G, with A being the best performance)"
+maxTemperatureRated,"Maximum washing temperature when washing at rated capacity (unit: °C)"
+maxTemperatureQuarter,"Maximum washing temperature when washing at 1/4 capacity (unit: °C)"
+dimensionDepth,"Depth of the washing machine (unit: cm)"
+guaranteeDuration,"Warranty period provided by the manufacturer (unit: years)"
+dimensionHeight,"Height of the washing machine (unit: cm)"
+powerNetworkStandby,"Power consumption in network standby mode (unit: W)"
+moisture,"Residual moisture percentage after spin-drying (%)"
+spinSpeedQuarter,"Spin speed when washing at 1/4 capacity (unit: RPM)"
+energyEfficiencyIndex,"Energy efficiency index (lower values indicate better efficiency)"
+noiseClass,"Noise rating (A~D, with A being the quietest)"
+powerStandbyMode,"Power consumption in standby mode (unit: W)"
+powerOffMode,"Power consumption in power-off mode (unit: W)"
+webLinkSupplier,"URL of the manufacturer's support website"
+programmeDurationHalf,"Programme duration when washing at half capacity (unit: minutes)"
+programmeDurationQuarter,"Programme duration when washing at 1/4 capacity (unit: minutes)"
+energyConsPerCycle,"Energy consumption per wash cycle (unit: kWh)"
+noise,"Noise level generated during operation (unit: dB)"
+waterCons,"Water consumption per wash cycle (unit: litres)"
+energyClass,"Energy rating (A~G, with A being the most efficient)"
+programmeDurationRated,"Programme duration when washing at rated capacity (unit: minutes)"
+dimensionWidth,"Width of the washing machine (unit: cm)"
+supplierOrTrademark,"Manufacturer or brand name (e.g., Samsung, Beko, etc.)"
+energyConsPer100Cycle,"Energy consumption for 100 wash cycles (unit: kWh)"
+maxTemperatureHalf,"Maximum washing temperature when washing at half capacity (unit: °C)"
+powerDelayStart,"Power consumption before operation starts after the product is turned ON (unit: W)"
+rinsingEffectiveness,"Rinsing performance (higher values indicate better rinsing efficiency"
