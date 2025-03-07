@@ -44,7 +44,7 @@ elif args.craw == 'all':
     # EPREL.py의 get_EPREL_DB_v3() 함수 호출하여 크롤링 진행
     df = get_EPREL_DB_v3()
     # 크롤링으로 얻은 dataframe csv로 저장
-    df.T.to_csv('../data/data_original.csv', index=False)
+    df.to_csv('../data/data_original.csv', index=False)
 
     # 전처리 진행
-    pre_functions.pre_process(df.T, 'IF', "../output/pre_data_")
+    pre_functions.pre_process(df, 'IF', "../output/pre_data_")
