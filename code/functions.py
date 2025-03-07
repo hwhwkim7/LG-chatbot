@@ -60,8 +60,9 @@ def set_vectorDB(df, embeddings, db_path="vectorstore/db_faiss"):
 
     documents = []
     col_info = [
-    "ratedCapacity", "spinClass", "noiseClass", "energyClass",
-    "rinsingEffectiveness", "supplierOrTrademark", "onMarketStart_Year"
+    "ratedCapacity", "energyClass", "energyConsPer100Cycle", "spinClass", 
+    "spinSpeedRated", "noiseClass", "noise", "rinsingEffectivenes", "waterCons", 
+    "supplierOrTrademark", "onMarketStart_Year"
     ] # 벡터 임베딩할 주요 컬럼
     
     # df의 각 row를 순회
