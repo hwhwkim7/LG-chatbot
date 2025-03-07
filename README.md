@@ -52,6 +52,11 @@ pip install <module_name>
 python data.py --craw T
 ```
 
+#### 크롤링 및 전처리를 한번에 진행하는 코드
+```
+python data.py
+```
+
 ### 4. 데이터 전처리
 ```
 # 직접 정한 기준
