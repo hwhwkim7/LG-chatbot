@@ -3,10 +3,6 @@ import re
 
 import functions
 
-# .env에서 token load
-HUGGINGFACE_TOKEN, _, API_KEY, CX= functions.load_token()
-LLAMA = "meta-llama/Llama-3.1-8B-Instruct"
-
 def google_search(query):
     search_url = "https://www.googleapis.com/customsearch/v1"
     params = {
@@ -30,7 +26,7 @@ def google_search(query):
     return results_list if results_list else ""
 
 
-def call_LLM(query, search_results, instruction):
+def call_LLM(generator, query, search_results, instruction):
     # 검색 결과가 list기 때문에 LLM에 적합하게 text 형식으로 변환
     formatted_results = "\n\n".join([f"{i+1}: {res}" for i, res in enumerate(search_results)])
 
@@ -43,9 +39,6 @@ def call_LLM(query, search_results, instruction):
 
     Answer:
     """
-
-    # 모델 로드
-    generator = functions.load_model(HUGGINGFACE_TOKEN, LLAMA)
     # 답변 생성
     result = generator(prompt, max_new_tokens=20, do_sample=True)
     raw_output = result[0]["generated_text"].split("Answer:")[-1].strip()
@@ -59,6 +52,12 @@ def clean_price_response(response):
         return f"{match.group(1)}{match.group(2)}"  # 통화 기호 + 숫자 반환
     return None  # 유효한 형식이 아닐 경우 None 반환
 
+# .env에서 token load
+HUGGINGFACE_TOKEN, _, API_KEY, CX= functions.load_token()
+LLAMA = "meta-llama/Llama-3.1-8B-Instruct"
+# 모델 로드
+generator = functions.load_model(HUGGINGFACE_TOKEN, LLAMA)
+    
 # 전처리된 dataset 로드
 df, _ = functions.load_data()
 # 현재 API 제한때문에 년도로 분할해서 아래와 같이 조금씩 검색중입니다.
@@ -67,8 +66,9 @@ year = 2024
 num = 1
 df = df[df["onMarketStart_Year"].isin([year])].head(25*num)
 
-# price 열 생성
+# price, currency 열 생성
 df['price'] = None
+df['currency'] = None
 for idx, row in df.iterrows():
     model_name = row.get('modelIdentifier')
     supplier_name = row.get('supplierOrTrademark')
@@ -86,7 +86,7 @@ for idx, row in df.iterrows():
         "DO NOT generate a price if no valid price exists in the results."
     )
     # LLM에게 응답 요청
-    raw_price = call_LLM(model_name, search_results, instruction)
+    raw_price = call_LLM(generator, model_name, search_results, instruction)
     # LLM 응답 전처리
     price = clean_price_response(raw_price)
 
@@ -94,7 +94,7 @@ for idx, row in df.iterrows():
     if not price or price == 'NO_PRICE':
         search_query = f"{supplier_name} {weight}kg price"
         search_results = google_search(search_query)
-        raw_price = call_LLM(f"{supplier_name} {weight}kg", search_results, instruction)
+        raw_price = call_LLM(generator, f"{supplier_name} {weight}kg", search_results, instruction)
         price = clean_price_response(raw_price)
 
     # 3차 검색 (LLM 추론)
@@ -104,10 +104,15 @@ for idx, row in df.iterrows():
             "Estimate the price based on similar models from the same supplier with similar weight. "
             "Ensure the format is strictly '$3000' or '€2500'. "
         )
-        raw_price = call_LLM(f"{supplier_name} {weight}kg (similar products)", [], instruction)
+        raw_price = call_LLM(generator, f"{supplier_name} {weight}kg (similar products)", [], instruction)
         price = clean_price_response(raw_price)
 
-    # 가격 정보 추라
-    df.at[idx, "price"] = price
+    # 가격 정보 추출 (화폐 기호에 따른 전처리 진행)
+    if price.startswith('$'): # $로 시작하는 지 확인
+        df.at[idx, 'currency'] = 'USD'
+        df.at[idx, 'price'] = price[1:]  # 맨 앞 문자 제거
+    elif price.startswith('£') or price.startswith('€'): # €로 시작하는 지 확인
+        df.at[idx, 'currency'] = 'GBP'
+        df.at[idx, 'price'] = price[1:]  # 맨 앞 문자 제거
 output_path = f'../output/search_data_{year}_{num}.csv'
 df.to_csv(output_path, index=False) # 최종 df 저장
